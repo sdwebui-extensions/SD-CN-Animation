@@ -107,7 +107,9 @@ def inputs_ui():
                 v2v_override_settings = create_override_settings_dropdown("vid2vid", row)
 
             with FormGroup(elem_id=f"script_container"):
-                v2v_custom_inputs = scripts.scripts_img2img.setup_ui()
+                modules.scripts.cn_scripts_img2img.prepare_ui()
+                v2v_custom_inputs = modules.scripts.cn_scripts_img2img.setup_ui()
+                   
             
         with gr.Tab('txt2vid') as tab_txt2vid:
             with gr.Row():
@@ -130,7 +132,8 @@ def inputs_ui():
                 t2v_override_settings = create_override_settings_dropdown("txt2vid", row)
 
             with FormGroup(elem_id=f"script_container"):
-                t2v_custom_inputs = scripts.scripts_txt2img.setup_ui()
+                modules.scripts.cn_scripts_txt2img.prepare_ui()
+                t2v_custom_inputs = modules.scripts.cn_scripts_txt2img.setup_ui()
     
     tab_vid2vid.select(fn=lambda: 'vid2vid', inputs=[], outputs=[glo_sdcn_process_mode])
     tab_txt2vid.select(fn=lambda: 'txt2vid', inputs=[], outputs=[glo_sdcn_process_mode])
@@ -162,8 +165,11 @@ def stop_process(*args):
 
 
 def on_ui_tabs():
-  modules.scripts.scripts_current = modules.scripts.scripts_img2img
-  modules.scripts.scripts_img2img.initialize_scripts(is_img2img=True)
+  modules.scripts.cn_scripts_txt2img = modules.scripts.ScriptRunner()
+  modules.scripts.cn_scripts_txt2img.initialize_scripts(is_img2img=True)
+  modules.scripts.cn_scripts_img2img = modules.scripts.ScriptRunner()
+  modules.scripts.scripts_current = modules.scripts.cn_scripts_img2img
+  modules.scripts.cn_scripts_img2img.initialize_scripts(is_img2img=True)
 
   with gr.Blocks(analytics_enabled=False) as sdcnanim_interface:
     components = {}
