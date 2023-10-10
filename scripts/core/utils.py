@@ -198,7 +198,7 @@ def process_img(p, input_img, output_dir, inpaint_mask_dir, args):
         #    mask_image = Image.open(mask_image_path)
         #    p.image_mask = mask_image
 
-        proc = modules.scripts.scripts_img2img.run(p, *args)
+        proc = modules.scripts.cn_scripts_img2img.run(p, *args)
         if proc is None:
             proc = process_images(p)
             generated_images.append(proc.images[0])
@@ -295,7 +295,7 @@ def img2img(args_dict):
         override_settings=override_settings,
     )
 
-    p.scripts = modules.scripts.scripts_img2img
+    p.scripts = modules.scripts.cn_scripts_img2img
     p.script_args = args.script_inputs
 
     #if shared.cmd_opts.enable_console_prompts:
@@ -368,13 +368,13 @@ def txt2img(args_dict):
         override_settings=override_settings,
     )
 
-    p.scripts = modules.scripts.scripts_txt2img
+    p.scripts = modules.scripts.cn_scripts_txt2img
     p.script_args = args.script_inputs
 
     #if cmd_opts.enable_console_prompts:
     #    print(f"\ntxt2img: {prompt}", file=shared.progress_print_out)
 
-    processed = modules.scripts.scripts_txt2img.run(p, *args.script_inputs)
+    processed = modules.scripts.cn_scripts_txt2img.run(p, *args.script_inputs)
 
     if processed is None:
         processed = process_images(p)
